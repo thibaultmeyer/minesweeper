@@ -27,6 +27,11 @@ typedef struct s_minesweeper_game {
     void (*function_update_cell_callback)(int, int);
 } s_minesweeper_game;
 
+typedef struct s_minesweeper_adjacent_pos_modifier {
+    int mod_width;
+    int mod_height;
+} s_minesweeper_adjacent_pos_modifier;
+
 /**
  * Creates a new game instance. This function will return
  * NULL in case of memory allocation error.

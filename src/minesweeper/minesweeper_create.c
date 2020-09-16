@@ -4,6 +4,19 @@
 #include <time.h>
 #include <unistd.h>
 
+#define ADJACENT_POS_MODIFIER_COUNT 8
+
+const s_minesweeper_adjacent_pos_modifier adjacent_pos_modifier[ADJACENT_POS_MODIFIER_COUNT] = {
+        {.mod_width = 1, .mod_height = 0},
+        {.mod_width = 1, .mod_height = 1},
+        {.mod_width = 1, .mod_height = -1},
+        {.mod_width = -1, .mod_height = 0},
+        {.mod_width = -1, .mod_height = 1},
+        {.mod_width = -1, .mod_height = -1},
+        {.mod_width = 0, .mod_height = 1},
+        {.mod_width = 0, .mod_height = -1},
+};
+
 s_minesweeper_game *minesweeper_create(int width, int height, int mine_count) {
     // Prepares the random number generator
     srand(time(NULL) + getpid());
@@ -27,8 +40,9 @@ s_minesweeper_game *minesweeper_create(int width, int height, int mine_count) {
         memset(game->cells[idx], 0, sizeof(s_minesweeper_cell));
 
         if (game->cells[idx] == NULL) {
-            for (; idx >= 0; --idx) {
+            while (idx >= 0) {
                 free(game->cells[idx]);
+                idx -= 1;
             }
 
             free(game->cells);
@@ -52,8 +66,19 @@ s_minesweeper_game *minesweeper_create(int width, int height, int mine_count) {
         if (cell->has_mine == 0) {
             cell->has_mine = 1;
             game->mine_count += 1;
+
+            // Update mine count on all adjacent cells
+            for (int idx = 0; idx < ADJACENT_POS_MODIFIER_COUNT; ++idx) {
+                const struct s_minesweeper_adjacent_pos_modifier modifier = adjacent_pos_modifier[idx];
+                s_minesweeper_cell *const cell_to_update = minesweeper_get_cell(game,
+                                                                                pos_width + modifier.mod_width,
+                                                                                pos_height + modifier.mod_height);
+                if (cell_to_update != NULL) {
+                    cell_to_update->proximity_mine_count += 1;
+                }
+            }
         }
     }
 
-    return 0;
+    return (game);
 }
