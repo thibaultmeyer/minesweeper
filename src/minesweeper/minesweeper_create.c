@@ -35,6 +35,7 @@ s_minesweeper_game *minesweeper_create(int width, int height, int mine_count) {
         return NULL;
     }
     memset(game->cells, 0, array_size * sizeof(s_minesweeper_cell));
+
     for (int idx = 0; idx < array_size; ++idx) {
         game->cells[idx] = malloc(sizeof(s_minesweeper_cell));
         memset(game->cells[idx], 0, sizeof(s_minesweeper_cell));
@@ -47,7 +48,7 @@ s_minesweeper_game *minesweeper_create(int width, int height, int mine_count) {
 
             free(game->cells);
             free(game);
-            return NULL;
+            return (NULL);
         }
     }
 
