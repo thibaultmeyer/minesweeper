@@ -1,8 +1,8 @@
-#include "minesweeper.h"
 #include <stdlib.h>
 #include <string.h>
+#include "minesweeper.h"
 
-void minesweeper_destroy(s_minesweeper_game *game) {
+void minesweeper_destroy(s_minesweeper_game *const game) {
     if (game != NULL) {
         const int array_size = game->width * game->height;
 

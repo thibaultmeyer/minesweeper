@@ -41,6 +41,8 @@ ADD_EXECUTABLE(
         src/minesweeper/minesweeper.h
         src/minesweeper/minesweeper_create.c
         src/minesweeper/minesweeper_destroy.c
+        src/minesweeper/minesweeper_dump.c
+        src/minesweeper/minesweeper_get_adjacent_cells.c
         src/minesweeper/minesweeper_get_cell.c
         src/minesweeper/minesweeper_is_all_cells_open.c
         src/minesweeper/minesweeper_open_cell.c

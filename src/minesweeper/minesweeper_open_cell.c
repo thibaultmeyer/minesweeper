@@ -1,7 +1,7 @@
 #include <string.h>
 #include "minesweeper.h"
 
-void minesweeper_open_cell(s_minesweeper_game *game, int pos_width, int pos_height) {
+void minesweeper_open_cell(s_minesweeper_game *const game, int pos_width, int pos_height) {
     if (game != NULL) {
         // Is first move? Change game state
         if (game->state == GAME_STATE_PENDING) {
@@ -48,7 +48,7 @@ void minesweeper_open_cell(s_minesweeper_game *game, int pos_width, int pos_heig
 
             // Try to open another adjacent "empty" cells
             if (cell->proximity_mine_count == 0) {
-               // TODO: implements this part
+                // TODO: implements this part
             }
 
             // Check if all cells are explored

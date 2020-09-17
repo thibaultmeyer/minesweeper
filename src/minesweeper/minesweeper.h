@@ -1,5 +1,6 @@
 #ifndef MINESWEEPER_GAMELOGIC_H
 # define MINESWEEPER_GAMELOGIC_H
+# define ADJACENT_CELLS_MAX_COUNT 8
 
 typedef enum e_minesweeper_gamestate {
     GAME_STATE_PENDING   = 0,
@@ -28,16 +29,6 @@ typedef struct s_minesweeper_game {
 
     void (*function_update_cell_callback)(struct s_minesweeper_game *, int, int);
 } s_minesweeper_game;
-
-typedef struct s_minesweeper_adjacent_pos_modifier {
-    int mod_width;
-    int mod_height;
-} s_minesweeper_adjacent_pos_modifier;
-
-/**
- * Handle to adjacent cells position modifiers.
- */
-extern const s_minesweeper_adjacent_pos_modifier gl_adjacent_pos_modifier[];
 
 /**
  * Creates a new game instance. This function will return
@@ -94,5 +85,23 @@ void minesweeper_toggle_flag(s_minesweeper_game *game, int pos_width, int pos_he
  * @param game The game instance
  */
 void minesweeper_open_cell(s_minesweeper_game *game, int pos_width, int pos_height);
+
+/**
+ * Retrieves all adjacent cells. The returned array ending with NULL value.
+ * Only the first dimension must be free !
+ *
+ * @param game The game instance
+ * @param pos_width X (width) position
+ * @param pos_height Y (height) position
+ * @return an array containing adjacent cells (pointer)
+ */
+s_minesweeper_cell **minesweeper_get_adjacent_cells(s_minesweeper_game *game, int pos_width, int pos_height);
+
+/**
+ * Dump the current game to the console.
+ *
+ * @param game The game instance
+ */
+void minesweeper_dump(s_minesweeper_game *game);
 
 #endif //MINESWEEPER_GAMELOGIC_H

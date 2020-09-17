@@ -1,7 +1,7 @@
 #include <string.h>
 #include "minesweeper.h"
 
-void minesweeper_toggle_flag(s_minesweeper_game *game, int pos_width, int pos_height) {
+void minesweeper_toggle_flag(s_minesweeper_game *const game, int pos_width, int pos_height) {
     if (game != NULL) {
         // Is first move? Change game state
         if (game->state == GAME_STATE_PENDING) {

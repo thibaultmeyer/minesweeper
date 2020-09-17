@@ -1,21 +1,8 @@
-#include "minesweeper.h"
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <unistd.h>
-
-#define ADJACENT_POS_MODIFIER_COUNT 8
-
-const s_minesweeper_adjacent_pos_modifier gl_adjacent_pos_modifier[ADJACENT_POS_MODIFIER_COUNT] = {
-        {.mod_width = 1, .mod_height = 0},
-        {.mod_width = 1, .mod_height = 1},
-        {.mod_width = 1, .mod_height = -1},
-        {.mod_width = -1, .mod_height = 0},
-        {.mod_width = -1, .mod_height = 1},
-        {.mod_width = -1, .mod_height = -1},
-        {.mod_width = 0, .mod_height = 1},
-        {.mod_width = 0, .mod_height = -1},
-};
+#include "minesweeper.h"
 
 s_minesweeper_game *minesweeper_create(int width,
                                        int height,
@@ -28,7 +15,7 @@ s_minesweeper_game *minesweeper_create(int width,
     // Instantiates variables. If malloc() fail: free all allocated memory!
     s_minesweeper_game *const game = malloc(sizeof(s_minesweeper_game));
     if (game == NULL) {
-        return NULL;
+        return (NULL);
     }
     memset(game, 0, sizeof(s_minesweeper_game));
 
@@ -36,7 +23,7 @@ s_minesweeper_game *minesweeper_create(int width,
     game->cells = malloc(array_size * sizeof(s_minesweeper_cell));
     if (game->cells == NULL) {
         free(game);
-        return NULL;
+        return (NULL);
     }
     memset(game->cells, 0, array_size * sizeof(s_minesweeper_cell));
 
@@ -75,15 +62,13 @@ s_minesweeper_game *minesweeper_create(int width,
             game->mine_count += 1;
 
             // Update mine count on all adjacent cells
-            for (int idx = 0; idx < ADJACENT_POS_MODIFIER_COUNT; ++idx) {
-                const struct s_minesweeper_adjacent_pos_modifier modifier = gl_adjacent_pos_modifier[idx];
-                s_minesweeper_cell *const cell_to_update = minesweeper_get_cell(game,
-                                                                                pos_width + modifier.mod_width,
-                                                                                pos_height + modifier.mod_height);
-                if (cell_to_update != NULL) {
-                    cell_to_update->proximity_mine_count += 1;
+            s_minesweeper_cell **const adjacent_cells = minesweeper_get_adjacent_cells(game, pos_width, pos_height);
+            for (int idx = 0; idx < ADJACENT_CELLS_MAX_COUNT; ++idx) {
+                if (adjacent_cells[idx] != NULL) {
+                    adjacent_cells[idx]->proximity_mine_count += 1;
                 }
             }
+            free(adjacent_cells);
         }
     }
 
