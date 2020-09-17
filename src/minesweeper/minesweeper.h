@@ -24,7 +24,9 @@ typedef struct s_minesweeper_game {
     s_minesweeper_cell      **cells;
     e_minesweeper_gamestate state;
 
-    void (*function_update_cell_callback)(int, int);
+    void (*function_update_gamestate_callback)(struct s_minesweeper_game *);
+
+    void (*function_update_cell_callback)(struct s_minesweeper_game *, int, int);
 } s_minesweeper_game;
 
 typedef struct s_minesweeper_adjacent_pos_modifier {
@@ -33,15 +35,26 @@ typedef struct s_minesweeper_adjacent_pos_modifier {
 } s_minesweeper_adjacent_pos_modifier;
 
 /**
+ * Handle to adjacent cells position modifiers.
+ */
+extern const s_minesweeper_adjacent_pos_modifier gl_adjacent_pos_modifier[];
+
+/**
  * Creates a new game instance. This function will return
  * NULL in case of memory allocation error.
  *
  * @param width The desired width
  * @param height The desired height
  * @param mine_count The desired number of mines
+ * @param function_update_gamestate_callback Gamestate update callback
+ * @param function_update_cell_callback Cell update callback
  * @return the newly created game instance
  */
-s_minesweeper_game *minesweeper_create(int width, int height, int mine_count);
+s_minesweeper_game *minesweeper_create(int width,
+                                       int height,
+                                       int mine_count,
+                                       void (*function_update_gamestate_callback)(struct s_minesweeper_game *),
+                                       void (*function_update_cell_callback)(struct s_minesweeper_game *, int, int));
 
 /**
  * Destroys the game instance.
@@ -52,11 +65,34 @@ void minesweeper_destroy(s_minesweeper_game *game);
 
 /**
  * Retrieves the cell located at the given position.
+ *
  * @param game The game instance
  * @param pos_width X (width) position
  * @param pos_height Y (height) position
  * @return the cell, otherwise, NULL
  */
 s_minesweeper_cell *minesweeper_get_cell(s_minesweeper_game *game, int pos_width, int pos_height);
+
+/**
+ * Checks that all cells are open.
+ *
+ * @param game The game instance
+ * @return 1 if all cells are open, otherwise, 0
+ */
+int minesweeper_is_all_cells_open(s_minesweeper_game *game);
+
+/**
+ * Adds or removes flag on the cell identified by given coordinates.
+ *
+ * @param game The game instance
+ */
+void minesweeper_toggle_flag(s_minesweeper_game *game, int pos_width, int pos_height);
+
+/**
+ * Adds or removes flag on the cell identified by given coordinates.
+ *
+ * @param game The game instance
+ */
+void minesweeper_open_cell(s_minesweeper_game *game, int pos_width, int pos_height);
 
 #endif //MINESWEEPER_GAMELOGIC_H

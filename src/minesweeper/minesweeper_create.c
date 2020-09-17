@@ -6,7 +6,7 @@
 
 #define ADJACENT_POS_MODIFIER_COUNT 8
 
-const s_minesweeper_adjacent_pos_modifier adjacent_pos_modifier[ADJACENT_POS_MODIFIER_COUNT] = {
+const s_minesweeper_adjacent_pos_modifier gl_adjacent_pos_modifier[ADJACENT_POS_MODIFIER_COUNT] = {
         {.mod_width = 1, .mod_height = 0},
         {.mod_width = 1, .mod_height = 1},
         {.mod_width = 1, .mod_height = -1},
@@ -17,7 +17,11 @@ const s_minesweeper_adjacent_pos_modifier adjacent_pos_modifier[ADJACENT_POS_MOD
         {.mod_width = 0, .mod_height = -1},
 };
 
-s_minesweeper_game *minesweeper_create(int width, int height, int mine_count) {
+s_minesweeper_game *minesweeper_create(int width,
+                                       int height,
+                                       int mine_count,
+                                       void (*function_update_gamestate_callback)(struct s_minesweeper_game *),
+                                       void (*function_update_cell_callback)(struct s_minesweeper_game *, int, int)) {
     // Prepares the random number generator
     srand(time(NULL) + getpid());
 
@@ -53,9 +57,11 @@ s_minesweeper_game *minesweeper_create(int width, int height, int mine_count) {
     }
 
     // Prepares game
-    game->state  = GAME_STATE_PENDING;
-    game->width  = width;
-    game->height = height;
+    game->state                              = GAME_STATE_PENDING;
+    game->width                              = width;
+    game->height                             = height;
+    game->function_update_gamestate_callback = function_update_gamestate_callback;
+    game->function_update_cell_callback      = function_update_cell_callback;
 
     // Randomly place mines and increment the mine counter
     while (game->mine_count < mine_count) {
@@ -70,7 +76,7 @@ s_minesweeper_game *minesweeper_create(int width, int height, int mine_count) {
 
             // Update mine count on all adjacent cells
             for (int idx = 0; idx < ADJACENT_POS_MODIFIER_COUNT; ++idx) {
-                const struct s_minesweeper_adjacent_pos_modifier modifier = adjacent_pos_modifier[idx];
+                const struct s_minesweeper_adjacent_pos_modifier modifier = gl_adjacent_pos_modifier[idx];
                 s_minesweeper_cell *const cell_to_update = minesweeper_get_cell(game,
                                                                                 pos_width + modifier.mod_width,
                                                                                 pos_height + modifier.mod_height);
