@@ -37,7 +37,11 @@ ADD_DEFINITIONS(${GTK3_CFLAGS_OTHER})
 # Files
 ADD_EXECUTABLE(
         minesweeper WIN32
-        src/main.c
+        src/gui/gui.h
+        src/gui/gui_main_callback_app_activate.c
+        src/gui/gui_main_callback_window_destroy.c
+        src/gui/gui_main_initialize_main_window.c
+        src/gui/gui_toolbox_is_gtk_dark_theme_enabled.c
         src/minesweeper/minesweeper.h
         src/minesweeper/minesweeper_create.c
         src/minesweeper/minesweeper_destroy.c
@@ -48,6 +52,7 @@ ADD_EXECUTABLE(
         src/minesweeper/minesweeper_open_cell.c
         src/minesweeper/minesweeper_toggle_flag.c
         src/version.h
+        src/main.c
         minesweeper.rc)
 
 # Link the target to the GTK+ libraries

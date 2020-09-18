@@ -1,11 +1,13 @@
-#include <string.h>
-#include "minesweeper/minesweeper.h"
+#include "gui/gui.h"
 
-int main(void) {
-    s_minesweeper_game *const game = minesweeper_create(32, 16, 40, NULL, NULL);
-    minesweeper_dump(game);
-    minesweeper_open_cell(game, 5, 6);
-    minesweeper_destroy(game);
+int main(int argc, char *argv[]) {
+    // Initialize GTK
+    gtk_init(&argc, &argv);
+    GtkApplication *const app = gtk_application_new(MINESWEEPER_GUI_APPLICATION_ID, G_APPLICATION_FLAGS_NONE);
+    g_signal_connect(app, "activate", G_CALLBACK(gui_main_callback_app_activate), NULL);
+    const int status = g_application_run(G_APPLICATION(app), argc, argv);
+    g_object_unref(app);
 
-    return (0);
+    // Return status
+    return (status);
 }
