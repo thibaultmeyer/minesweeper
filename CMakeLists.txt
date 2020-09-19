@@ -39,6 +39,10 @@ ADD_EXECUTABLE(
         minesweeper WIN32
         src/gui/gui.h
         src/gui/gui_main_callback_app_activate.c
+        src/gui/gui_main_callback_drawing_area_click.c
+        src/gui/gui_main_callback_drawing_area_draw.c
+        src/gui/gui_main_callback_drawing_area_new_size.c
+        src/gui/gui_main_callback_timeout_render.c
         src/gui/gui_main_callback_window_destroy.c
         src/gui/gui_main_initialize_main_window.c
         src/gui/gui_toolbox_is_gtk_dark_theme_enabled.c

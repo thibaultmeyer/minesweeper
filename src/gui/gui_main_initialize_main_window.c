@@ -20,5 +20,24 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
 
     g_signal_connect(gtk_window, "destroy", G_CALLBACK(gui_main_callback_window_destroy), app);
 
+    // Create drawing area
+    GtkWidget *const gtk_drawing_area = gtk_drawing_area_new();
+    gtk_container_add(GTK_CONTAINER(gtk_window), gtk_drawing_area);
+    s_window_cfg *const win_cfg = malloc(sizeof(s_window_cfg));
+    g_signal_connect(gtk_drawing_area, "size-allocate", G_CALLBACK(gui_main_callback_drawing_area_new_size), win_cfg);
+    g_signal_connect(gtk_drawing_area, "draw", G_CALLBACK(gui_main_callback_drawing_area_draw), win_cfg);
+    g_signal_connect (gtk_drawing_area, "button-press-event", G_CALLBACK(gui_main_callback_drawing_area_click), NULL);
+    g_signal_connect (gtk_drawing_area, "button-release-event", G_CALLBACK(gui_main_callback_drawing_area_click), NULL);
+    g_signal_connect (gtk_drawing_area, "motion-notify-event", G_CALLBACK(gui_main_callback_drawing_area_click), NULL);
+    g_timeout_add(33, G_SOURCE_FUNC(gui_main_callback_timeout_render), gtk_drawing_area);
+
+    gtk_widget_set_events(gtk_drawing_area, GDK_EXPOSURE_MASK
+                                            | GDK_LEAVE_NOTIFY_MASK
+                                            | GDK_BUTTON_PRESS_MASK
+                                            | GDK_BUTTON_RELEASE_MASK
+                                            | GDK_POINTER_MOTION_MASK
+                                            | GDK_POINTER_MOTION_HINT_MASK);
+
+    // Show window
     gtk_widget_show_all(GTK_WIDGET(gtk_window));
 }

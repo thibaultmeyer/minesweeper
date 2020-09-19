@@ -1,7 +1,7 @@
 #include "gui.h"
 
-void gui_main_callback_window_destroy(GtkWidget *const widget, gpointer app) {
-
+void gui_main_callback_window_destroy(GtkWidget *const widget,
+                                      gpointer app) {
     // Free the main Gtk window
     gtk_widget_destroy(widget);
 
