@@ -27,7 +27,7 @@ typedef struct s_minesweeper_game {
 
     void (*function_update_gamestate_callback)(struct s_minesweeper_game *);
 
-    void (*function_update_cell_callback)(struct s_minesweeper_game *, int, int);
+    void (*function_update_cell_callback)(struct s_minesweeper_game *, struct s_minesweeper_cell *, int, int);
 } s_minesweeper_game;
 
 /**
@@ -45,7 +45,10 @@ s_minesweeper_game *minesweeper_create(int width,
                                        int height,
                                        int mine_count,
                                        void (*function_update_gamestate_callback)(struct s_minesweeper_game *),
-                                       void (*function_update_cell_callback)(struct s_minesweeper_game *, int, int));
+                                       void (*function_update_cell_callback)(struct s_minesweeper_game *,
+                                                                             struct s_minesweeper_cell *,
+                                                                             int,
+                                                                             int));
 
 /**
  * Destroys the game instance.

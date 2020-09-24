@@ -1,9 +1,9 @@
 #include "gui.h"
-#include "gui_image_logo.h"
+#include "image/gui_image_logo.h"
 #include "../version.h"
 
-void gui_main_callback_menu_about(GtkApplication *const app, gpointer window) {
-    (void) app;        // Unused parameter
+void gui_main_callback_menu_about(GtkButton *const button, gpointer window) {
+    (void) button;  // Unused parameter
 
     GdkPixbuf      *pixbuf    = gui_image_load_from_memory_scale(gui_image_logo_bytes, gui_image_logo_length, 64, 64);
     GtkAboutDialog *gtk_about = GTK_ABOUT_DIALOG(gtk_about_dialog_new());

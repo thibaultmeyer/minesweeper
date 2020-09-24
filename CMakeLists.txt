@@ -38,9 +38,12 @@ ADD_DEFINITIONS(${GTK3_CFLAGS_OTHER})
 ADD_EXECUTABLE(
         minesweeper WIN32
         src/gui/gui.h
+        src/gui/gui_game_callback_cell_update.c
         src/gui/gui_image_load_from_memory_scale.c
         src/gui/gui_main_callback_app_activate.c
+        src/gui/gui_main_callback_click_mine.c
         src/gui/gui_main_callback_menu_about.c
+        src/gui/gui_main_callback_menu_new_game.c
         src/gui/gui_main_callback_window_destroy.c
         src/gui/gui_main_initialize_main_window.c
         src/gui/gui_toolbox_is_gtk_dark_theme_enabled.c

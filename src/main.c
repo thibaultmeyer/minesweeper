@@ -1,5 +1,7 @@
 #include "gui/gui.h"
 
+s_context gl_context = {0};
+
 int main(int argc, char *argv[]) {
     // Initialize GTK
     gtk_init(&argc, &argv);

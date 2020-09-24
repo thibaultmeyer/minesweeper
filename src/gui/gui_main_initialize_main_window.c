@@ -8,14 +8,12 @@
 void gui_main_initialize_main_window(GtkApplication *const app) {
 
     // Create the main window
-    GtkWindow *const gtk_window = GTK_WINDOW(gtk_application_window_new(app));
-    gtk_application_add_window(app, gtk_window);
+    gl_context.gtk_window = GTK_WINDOW(gtk_application_window_new(app));
+    gtk_application_add_window(app, gl_context.gtk_window);
 
-    gtk_window_set_title(gtk_window, MINESWEEPER_APPNAME);
-    gtk_window_set_default_size(gtk_window, 640, 480);
-    gtk_window_set_resizable(gtk_window, FALSE);
-
-    g_signal_connect(gtk_window, "destroy", G_CALLBACK(gui_main_callback_window_destroy), app);
+    gtk_window_set_title(gl_context.gtk_window, MINESWEEPER_APPNAME);
+    gtk_window_resize(gl_context.gtk_window, 1024, 768);
+    g_signal_connect(gl_context.gtk_window, "destroy", G_CALLBACK(gui_main_callback_window_destroy), app);
 
     // Check dark theme
     gboolean is_dark_theme_enabled = gui_toolbox_is_gtk_dark_theme_enabled();
@@ -25,7 +23,7 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
     gtk_widget_show(GTK_WIDGET(header_bar));
     gtk_header_bar_set_title(header_bar, MINESWEEPER_APPNAME);
     gtk_header_bar_set_show_close_button(header_bar, TRUE);
-    gtk_window_set_titlebar(gtk_window, GTK_WIDGET(header_bar));
+    gtk_window_set_titlebar(gl_context.gtk_window, GTK_WIDGET(header_bar));
 
     // Button "New Game"
     GtkWidget *button = gtk_menu_button_new();
@@ -50,19 +48,29 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
     GtkWidget *menu_new_game_item = gtk_menu_item_new_with_label("Easy");
     gtk_container_add(GTK_CONTAINER(menu_new_game), menu_new_game_item);
     gtk_menu_attach(GTK_MENU(menu_new_game), menu_new_game_item, 0, 1, 0, 1);
-    //g_signal_connect(menu_item_state_load, "activate", G_CALLBACK(), NULL);
+    g_signal_connect(menu_new_game_item,
+                     "activate",
+                     G_CALLBACK(gui_main_callback_menu_new_game),
+                     (void *) GAME_DIFFICULTY_EASY);
 
     // Menu "New Game": Add "normal" option
     menu_new_game_item = gtk_menu_item_new_with_label("Normal");
     gtk_container_add(GTK_CONTAINER(menu_new_game), menu_new_game_item);
     gtk_menu_attach(GTK_MENU(menu_new_game), menu_new_game_item, 0, 1, 1, 2);
-    //g_signal_connect(menu_item_state_load, "activate", G_CALLBACK(), NULL);
+    g_signal_connect(menu_new_game_item,
+                     "activate",
+                     G_CALLBACK(gui_main_callback_menu_new_game),
+                     (void *) GAME_DIFFICULTY_NORMAL);
+    GtkWidget *menu_to_activate_at_run = menu_new_game_item;
 
     // Menu "New Game": Add "hard" option
     menu_new_game_item = gtk_menu_item_new_with_label("Hard");
     gtk_container_add(GTK_CONTAINER(menu_new_game), menu_new_game_item);
     gtk_menu_attach(GTK_MENU(menu_new_game), menu_new_game_item, 0, 1, 2, 3);
-    //g_signal_connect(menu_item_state_load, "activate", G_CALLBACK(), NULL);
+    g_signal_connect(menu_new_game_item,
+                     "activate",
+                     G_CALLBACK(gui_main_callback_menu_new_game),
+                     (void *) GAME_DIFFICULTY_HARD);
 
     // Menu "New Game": Display
     gtk_widget_show_all(menu_new_game);
@@ -81,12 +89,22 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
     gtk_container_add(GTK_CONTAINER(button), image);
     gtk_widget_set_tooltip_text(button, "About");
     gtk_header_bar_pack_end(GTK_HEADER_BAR(header_bar), button);
-    g_signal_connect(button, "clicked", G_CALLBACK(gui_main_callback_menu_about), gtk_window);
+    g_signal_connect(button, "clicked", G_CALLBACK(gui_main_callback_menu_about), gl_context.gtk_window);
 
     // Create grid
     GtkWidget *const gtk_grid = gtk_grid_new();
-    gtk_container_add(GTK_CONTAINER(gtk_window), gtk_grid);
+    gtk_container_add(GTK_CONTAINER(gl_context.gtk_window), gtk_grid);
+    gl_context.gtk_grid = GTK_GRID(gtk_grid);
+
+    // Style
+    GdkDisplay     *const display  = gdk_display_get_default();
+    GdkScreen      *const screen   = gdk_display_get_default_screen(display);
+    GtkCssProvider *const provider = gtk_css_provider_new();
+    gtk_css_provider_load_from_data(provider, "#mine {padding: 0} ", -1, NULL);
+    gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
+    g_object_unref(provider);
 
     // Show
-    gtk_widget_show_all(GTK_WIDGET(gtk_window));
+    gtk_widget_show_all(GTK_WIDGET(gl_context.gtk_window));
+    gtk_menu_item_activate(GTK_MENU_ITEM(menu_to_activate_at_run));
 }

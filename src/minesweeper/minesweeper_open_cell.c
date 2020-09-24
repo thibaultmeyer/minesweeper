@@ -51,7 +51,7 @@ void minesweeper_open_cell(s_minesweeper_game *const game, int pos_width, int po
 
         // Callback
         if (game->function_update_cell_callback != NULL) {
-            game->function_update_cell_callback(game, pos_width, pos_height);
+            game->function_update_cell_callback(game, cell, pos_width, pos_height);
         }
 
         // Check if current cell contains a mine
