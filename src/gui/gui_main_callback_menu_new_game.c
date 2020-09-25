@@ -1,5 +1,5 @@
 #include "gui.h"
-#include "image/gui_image_tile_empty.h"
+#include "image/gui_image_tile_close.h"
 
 const s_game_info_difficulty gl_level_difficulty[] = {
         {8,  8,  10},
@@ -33,8 +33,8 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
     const int mine_count = gl_level_difficulty[game_difficulty].mine_count;
 
     // Load empty tile picture
-    GdkPixbuf *const pixbuf_tile_empty = gui_image_load_from_memory_scale(gui_image_tile_empty_bytes,
-                                                                          gui_image_tile_empty_length,
+    GdkPixbuf *const pixbuf_tile_close = gui_image_load_from_memory_scale(gui_image_tile_close_bytes,
+                                                                          gui_image_tile_close_length,
                                                                           48,
                                                                           48);
 
@@ -48,7 +48,7 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
             position->x = idx_width;
             position->y = idx_height;
 
-            GtkWidget *const image = gtk_image_new_from_pixbuf(pixbuf_tile_empty);
+            GtkWidget *const image = gtk_image_new_from_pixbuf(pixbuf_tile_close);
             gtk_container_add(GTK_CONTAINER(gtk_button), image);
             gtk_button_set_relief(GTK_BUTTON (gtk_button), GTK_RELIEF_NONE);
             gtk_widget_set_name(gtk_button, "mine");
@@ -70,4 +70,7 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
 
     // Display all
     gtk_widget_show_all(GTK_WIDGET(gl_context.gtk_grid));
+
+    // Clean
+    g_object_unref(pixbuf_tile_close);
 }
