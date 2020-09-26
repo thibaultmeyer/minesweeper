@@ -35,8 +35,8 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
     // Load empty tile picture
     GdkPixbuf *const pixbuf_tile_close = gui_image_load_from_memory_scale(gui_image_tile_close_bytes,
                                                                           gui_image_tile_close_length,
-                                                                          48,
-                                                                          48);
+                                                                          MINESWEEPER_GUI_TILE_SIZE,
+                                                                          MINESWEEPER_GUI_TILE_SIZE);
 
     // Prepare game board
     gl_context.minesweeper_game = minesweeper_create(width, height, mine_count, NULL, &gui_game_callback_cell_update);

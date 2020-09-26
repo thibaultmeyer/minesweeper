@@ -5,6 +5,7 @@
 # include "../minesweeper/minesweeper.h"
 
 # define MINESWEEPER_GUI_APPLICATION_ID "com.github.thibaultmeyer.minesweeper"
+# define MINESWEEPER_GUI_TILE_SIZE      24
 
 typedef enum e_game_difficulty {
     GAME_DIFFICULTY_EASY   = 0,
