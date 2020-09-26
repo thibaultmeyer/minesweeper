@@ -20,5 +20,5 @@ void gui_main_callback_menu_about(GtkButton *const button, gpointer window) {
     gtk_dialog_run(GTK_DIALOG(gtk_about));
 
     g_object_unref(pixbuf);
-    g_object_unref(gtk_about);
+    gtk_widget_destroy(GTK_WIDGET(gtk_about));
 }
