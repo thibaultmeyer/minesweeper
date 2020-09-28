@@ -22,16 +22,16 @@ void gui_game_callback_cell_update(struct s_minesweeper_game *game_instance,
         if (game_cell->has_flag) {
             GdkPixbuf *const pixbuf_tile_close = gui_image_load_from_memory_scale(gui_image_tile_flag_bytes,
                                                                                   gui_image_tile_flag_length,
-                                                                                  MINESWEEPER_GUI_TILE_SIZE,
-                                                                                  MINESWEEPER_GUI_TILE_SIZE);
+                                                                                  gl_context.cell_size,
+                                                                                  gl_context.cell_size);
             GtkWidget *const image = gtk_image_new_from_pixbuf(pixbuf_tile_close);
             gtk_container_add(GTK_CONTAINER(gtk_button), image);
             g_object_unref(pixbuf_tile_close);
         } else if (game_cell->has_mine) {
             GdkPixbuf *const pixbuf_tile_close = gui_image_load_from_memory_scale(gui_image_tile_mine_bytes,
                                                                                   gui_image_tile_mine_length,
-                                                                                  MINESWEEPER_GUI_TILE_SIZE,
-                                                                                  MINESWEEPER_GUI_TILE_SIZE);
+                                                                                  gl_context.cell_size,
+                                                                                  gl_context.cell_size);
             GtkWidget *const image = gtk_image_new_from_pixbuf(pixbuf_tile_close);
             gtk_container_add(GTK_CONTAINER(gtk_button), image);
             g_object_unref(pixbuf_tile_close);
@@ -40,8 +40,8 @@ void gui_game_callback_cell_update(struct s_minesweeper_game *game_instance,
 
             GdkPixbuf *const pixbuf_tile_close = gui_image_load_from_memory_scale(gui_image_tile_open_bytes,
                                                                                   gui_image_tile_open_length,
-                                                                                  MINESWEEPER_GUI_TILE_SIZE,
-                                                                                  MINESWEEPER_GUI_TILE_SIZE);
+                                                                                  gl_context.cell_size,
+                                                                                  gl_context.cell_size);
             GtkWidget *const image = gtk_image_new_from_pixbuf(pixbuf_tile_close);
             gtk_container_add(GTK_CONTAINER(gtk_button), image);
             g_object_unref(pixbuf_tile_close);

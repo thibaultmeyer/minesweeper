@@ -5,7 +5,6 @@
 # include "../minesweeper/minesweeper.h"
 
 # define MINESWEEPER_GUI_APPLICATION_ID "com.github.thibaultmeyer.minesweeper"
-# define MINESWEEPER_GUI_TILE_SIZE      24
 
 typedef enum e_game_difficulty {
     GAME_DIFFICULTY_EASY   = 0,
@@ -17,6 +16,7 @@ typedef struct s_game_info_difficulty {
     int width;
     int height;
     int mine_count;
+    int cell_size;
 } s_game_info_difficulty;
 
 typedef struct s_context {
@@ -24,6 +24,7 @@ typedef struct s_context {
     GtkGrid            *gtk_grid;
     guint              gtk_timer_cpu;
     s_minesweeper_game *minesweeper_game;
+    int                cell_size;
 } s_context;
 
 typedef struct s_position {

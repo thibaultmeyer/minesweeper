@@ -2,9 +2,9 @@
 #include "image/gui_image_tile_close.h"
 
 const s_game_info_difficulty gl_level_difficulty[] = {
-        {8,  8,  10},
-        {16, 16, 40},
-        {30, 16, 99}
+        {.width = 8, .height=8, .mine_count=10, .cell_size=48},
+        {.width =16, .height=16, .mine_count=40, .cell_size=32},
+        {.width =30, .height=16, .mine_count=99, .cell_size=24}
 };
 
 static void free_on_closure_notify(gpointer data, GClosure *closure) {
@@ -27,19 +27,21 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
         g_list_free(childrens);
     }
 
-    // Retrieve parameters
-    const int width      = gl_level_difficulty[game_difficulty].width;
-    const int height     = gl_level_difficulty[game_difficulty].height;
-    const int mine_count = gl_level_difficulty[game_difficulty].mine_count;
+    // Retrieve size to use for each cells
+    gl_context.cell_size = gl_level_difficulty[game_difficulty].cell_size;
 
     // Load empty tile picture
     GdkPixbuf *const pixbuf_tile_close = gui_image_load_from_memory_scale(gui_image_tile_close_bytes,
                                                                           gui_image_tile_close_length,
-                                                                          MINESWEEPER_GUI_TILE_SIZE,
-                                                                          MINESWEEPER_GUI_TILE_SIZE);
+                                                                          gl_context.cell_size,
+                                                                          gl_context.cell_size);
 
     // Prepare game board
-    gl_context.minesweeper_game = minesweeper_create(width, height, mine_count, NULL, &gui_game_callback_cell_update);
+    gl_context.minesweeper_game = minesweeper_create(gl_level_difficulty[game_difficulty].width,
+                                                     gl_level_difficulty[game_difficulty].height,
+                                                     gl_level_difficulty[game_difficulty].mine_count,
+                                                     NULL,
+                                                     &gui_game_callback_cell_update);
     for (int idx_height = 0; idx_height < gl_context.minesweeper_game->height; ++idx_height) {
         for (int idx_width = 0; idx_width < gl_context.minesweeper_game->width; ++idx_width) {
             GtkWidget  *const gtk_button = gtk_button_new();
@@ -65,7 +67,7 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
 
     // Resize window
     gtk_window_set_resizable(gl_context.gtk_window, TRUE);
-    gtk_window_resize(gl_context.gtk_window, 10, 10);
+    gtk_window_resize(gl_context.gtk_window, 5, 5);
     gtk_window_set_resizable(gl_context.gtk_window, FALSE);
 
     // Display all
