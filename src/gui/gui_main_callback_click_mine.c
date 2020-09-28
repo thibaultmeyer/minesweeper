@@ -1,7 +1,7 @@
 #include "gui.h"
 
 gboolean  gui_main_callback_click_mine(GtkWidget *button, GdkEventButton *event, s_position *position) {
-    if (gl_context.minesweeper_game != NULL) {
+    if (gl_context.minesweeper_game != NULL && gl_context.minesweeper_game->state != GAME_STATE_GAME_OVER) {
         // Check if mouse pointer moved since click (before release)
         if (event->x < 0 || event->y < 0 || event->x > 48 || event->y > 48) {
             return FALSE;
