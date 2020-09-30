@@ -2,4 +2,5 @@
 cmake-build-debug
 cmake-build-release
 cmake-build-debug-coverage
+src/version.h
 .DS_Store
