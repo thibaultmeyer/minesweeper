@@ -1,11 +1,18 @@
 CMAKE_MINIMUM_REQUIRED(VERSION 3.10.2)
 PROJECT(minesweeper C)
 
+# Application version
+SET(MINESWEEPER_VERSION "1.0")
+SET(MINESWEEPER_VERSION_WIN_FILE "1,0,0,0")
+
 # Settings
 SET(CMAKE_C_STANDARD 99)
 SET(CMAKE_C_FLAGS "-Wall")
 SET(CMAKE_CXX_FLAGS_DEBUG "-g")
 SET(CMAKE_CXX_FLAGS_RELEASE "-O2")
+
+# Configure version.h file
+CONFIGURE_FILE(${CMAKE_SOURCE_DIR}/res/version.h.template ${CMAKE_SOURCE_DIR}/src/version.h)
 
 # Configure windres: don't use flags
 IF (MINGW)
@@ -34,9 +41,19 @@ LINK_DIRECTORIES(${GTK3_LIBRARY_DIRS})
 # Add other flags to the compiler
 ADD_DEFINITIONS(${GTK3_CFLAGS_OTHER})
 
+# Defines properties for MacOS app bundle
+IF (APPLE)
+    SET(MACOSX_BUNDLE_LONG_VERSION_STRING ${MINESWEEPER_VERSION})
+    SET(MACOSX_BUNDLE_SHORT_VERSION_STRING ${MINESWEEPER_VERSION})
+    SET(MAC_ICON ${CMAKE_SOURCE_DIR}/res/application-icon-macos.icns)
+    SET_SOURCE_FILES_PROPERTIES(${MAC_ICON} PROPERTIES MACOSX_PACKAGE_LOCATION Resources)
+    SET(MACOSX_BUNDLE_ICON_FILE application-icon-macos.icns)
+ENDIF (APPLE)
+
 # Files
 ADD_EXECUTABLE(
         minesweeper WIN32
+        MACOSX_BUNDLE
         src/gui/gui.h
         src/gui/gui_game_callback_cell_update.c
         src/gui/gui_image_load_from_memory_scale.c
@@ -58,7 +75,8 @@ ADD_EXECUTABLE(
         src/minesweeper/minesweeper_toggle_flag.c
         src/version.h
         src/main.c
-        minesweeper.rc)
+        minesweeper.rc
+        ${MAC_ICON})
 
 # Link the target to the GTK+ libraries
 TARGET_LINK_LIBRARIES(minesweeper -lm ${GTK3_LIBRARIES})
