@@ -3,10 +3,7 @@
 #include "image/gui_image_tile_mine.h"
 #include "image/gui_image_tile_open.h"
 
-void gui_game_callback_cell_update(struct s_minesweeper_game *game_instance,
-                                   struct s_minesweeper_cell *game_cell,
-                                   int x,
-                                   int y) {
+void gui_game_callback_cell_update(s_minesweeper_game *game_instance, s_minesweeper_cell *game_cell, int x, int y) {
     (void) game_instance;  // Unused parameter
 
     GtkWidget *const gtk_button = gtk_grid_get_child_at(gl_context.gtk_grid, x + 1, y + 1);
@@ -24,7 +21,7 @@ void gui_game_callback_cell_update(struct s_minesweeper_game *game_instance,
                                                                                   gui_image_tile_flag_length,
                                                                                   gl_context.cell_size,
                                                                                   gl_context.cell_size);
-            GtkWidget *const image = gtk_image_new_from_pixbuf(pixbuf_tile_close);
+            GtkWidget *const image             = gtk_image_new_from_pixbuf(pixbuf_tile_close);
             gtk_container_add(GTK_CONTAINER(gtk_button), image);
             g_object_unref(pixbuf_tile_close);
         } else if (game_cell->has_mine) {
@@ -32,7 +29,7 @@ void gui_game_callback_cell_update(struct s_minesweeper_game *game_instance,
                                                                                   gui_image_tile_mine_length,
                                                                                   gl_context.cell_size,
                                                                                   gl_context.cell_size);
-            GtkWidget *const image = gtk_image_new_from_pixbuf(pixbuf_tile_close);
+            GtkWidget *const image             = gtk_image_new_from_pixbuf(pixbuf_tile_close);
             gtk_container_add(GTK_CONTAINER(gtk_button), image);
             g_object_unref(pixbuf_tile_close);
         } else if (game_cell->is_opened) {
@@ -42,7 +39,7 @@ void gui_game_callback_cell_update(struct s_minesweeper_game *game_instance,
                                                                                   gui_image_tile_open_length,
                                                                                   gl_context.cell_size,
                                                                                   gl_context.cell_size);
-            GtkWidget *const image = gtk_image_new_from_pixbuf(pixbuf_tile_close);
+            GtkWidget *const image             = gtk_image_new_from_pixbuf(pixbuf_tile_close);
             gtk_container_add(GTK_CONTAINER(gtk_button), image);
             g_object_unref(pixbuf_tile_close);
         }

@@ -61,6 +61,7 @@ ADD_EXECUTABLE(
         MACOSX_BUNDLE
         src/gui/gui.h
         src/gui/gui_game_callback_cell_update.c
+        src/gui/gui_game_callback_game_update.c
         src/gui/gui_image_load_from_memory_scale.c
         src/gui/gui_main_callback_app_activate.c
         src/gui/gui_main_callback_click_mine.c

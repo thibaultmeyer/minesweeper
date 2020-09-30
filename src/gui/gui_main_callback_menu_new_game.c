@@ -40,7 +40,7 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
     gl_context.minesweeper_game = minesweeper_create(gl_level_difficulty[game_difficulty].width,
                                                      gl_level_difficulty[game_difficulty].height,
                                                      gl_level_difficulty[game_difficulty].mine_count,
-                                                     NULL,
+                                                     &gui_game_callback_game_update,
                                                      &gui_game_callback_cell_update);
     for (int idx_height = 0; idx_height < gl_context.minesweeper_game->height; ++idx_height) {
         for (int idx_width = 0; idx_width < gl_context.minesweeper_game->width; ++idx_width) {

@@ -39,15 +39,20 @@ extern s_context gl_context;
 
 /**
  * Callback. When a cell is updated.
+ *
  * @param game_instance  The current game instance
  * @param game_cell  The updated cell
  * @param x The updated cell position (X)
  * @param y The updated cell position (Y)
  */
-void gui_game_callback_cell_update(struct s_minesweeper_game *game_instance,
-                                   struct s_minesweeper_cell *game_cell,
-                                   int x,
-                                   int y);
+void gui_game_callback_cell_update(s_minesweeper_game *game_instance, s_minesweeper_cell *game_cell, int x, int y);
+
+/**
+ * Callback. When gam state is updated.
+ *
+ * @param game_instance  The current game instance
+ */
+void gui_game_callback_game_update(s_minesweeper_game *game_instance);
 
 /**
  * Load image from memory and scale it.
