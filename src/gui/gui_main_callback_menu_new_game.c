@@ -20,9 +20,9 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
     if (gl_context.minesweeper_game != NULL) {
         minesweeper_destroy(gl_context.minesweeper_game);
 
-        GList      *childrens = gtk_container_get_children(GTK_CONTAINER(gl_context.gtk_grid));
+        GList      *childrens = gtk_container_get_children(GTK_CONTAINER(gl_context.gtk_grid_game));
         for (GList *iterator  = childrens; iterator != NULL; iterator = iterator->next) {
-            gtk_container_remove(GTK_CONTAINER(gl_context.gtk_grid), GTK_WIDGET(iterator->data));
+            gtk_container_remove(GTK_CONTAINER(gl_context.gtk_grid_game), GTK_WIDGET(iterator->data));
         }
         g_list_free(childrens);
     }
@@ -55,7 +55,7 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
             gtk_button_set_relief(GTK_BUTTON (gtk_button), GTK_RELIEF_NONE);
             gtk_widget_set_name(gtk_button, "mine");
 
-            gtk_grid_attach(gl_context.gtk_grid, gtk_button, idx_width + 1, idx_height + 1, 1, 1);
+            gtk_grid_attach(gl_context.gtk_grid_game, gtk_button, idx_width + 1, idx_height + 1, 1, 1);
             g_signal_connect_data(gtk_button,
                                   "button-release-event",
                                   G_CALLBACK(gui_main_callback_click_mine),
@@ -70,8 +70,14 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
     gtk_window_resize(gl_context.gtk_window, 5, 5);
     gtk_window_set_resizable(gl_context.gtk_window, FALSE);
 
+    // Reset HUD
+    gtk_label_set_text(gl_context.gtk_label_timer, "000");
+    gchar *const g_str_mine_count = g_strdup_printf("%03i", gl_context.minesweeper_game->mine_count);
+    gtk_label_set_text(gl_context.gtk_label_flag_left, g_str_mine_count);
+    g_free(g_str_mine_count);
+
     // Display all
-    gtk_widget_show_all(GTK_WIDGET(gl_context.gtk_grid));
+    gtk_widget_show_all(GTK_WIDGET(gl_context.gtk_grid_game));
 
     // Clean
     g_object_unref(pixbuf_tile_close);

@@ -90,16 +90,43 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
     gtk_header_bar_pack_end(GTK_HEADER_BAR(header_bar), button);
     g_signal_connect(button, "clicked", G_CALLBACK(gui_main_callback_menu_about), gl_context.gtk_window);
 
-    // Create grid
-    GtkWidget *const gtk_grid = gtk_grid_new();
-    gtk_container_add(GTK_CONTAINER(gl_context.gtk_window), gtk_grid);
-    gl_context.gtk_grid = GTK_GRID(gtk_grid);
+    // Create vertical box
+    GtkWidget *const gtk_vbox = gtk_box_new(GTK_ORIENTATION_VERTICAL, 0);
+    gtk_container_add(GTK_CONTAINER(gl_context.gtk_window), gtk_vbox);
+
+    // Create HUD
+    GtkWidget *const gtk_vbox_hud = gtk_box_new(GTK_ORIENTATION_HORIZONTAL, 0);
+    gtk_widget_set_size_request(gtk_vbox_hud, 0, 60);
+    gtk_widget_set_name(gtk_vbox_hud, "hud");
+    gtk_box_pack_start(GTK_BOX(gtk_vbox), gtk_vbox_hud, FALSE, FALSE, 0);
+
+    GtkWidget *const gtk_label_timer = gtk_label_new("000");
+    gtk_widget_set_name(gtk_label_timer, "label");
+    gtk_box_pack_start(GTK_BOX(gtk_vbox_hud), gtk_label_timer, FALSE, FALSE, 20);
+    gl_context.gtk_label_timer = GTK_LABEL(gtk_label_timer);
+
+    GtkWidget *const gtk_label_mine_count = gtk_label_new("000");
+    gtk_widget_set_name(gtk_label_mine_count, "label");
+    gtk_box_pack_end(GTK_BOX(gtk_vbox_hud), gtk_label_mine_count, FALSE, FALSE, 20);
+    gl_context.gtk_label_flag_left = GTK_LABEL(gtk_label_mine_count);
+
+    // Create Game grid
+    GtkWidget *const gtk_grid_game = gtk_grid_new();
+    gtk_widget_set_name(gtk_grid_game, "board");
+    gtk_box_pack_start(GTK_BOX(gtk_vbox), gtk_grid_game, FALSE, FALSE, 0);
+    gl_context.gtk_grid_game = GTK_GRID(gtk_grid_game);
 
     // Style
     GdkDisplay     *const display  = gdk_display_get_default();
     GdkScreen      *const screen   = gdk_display_get_default_screen(display);
     GtkCssProvider *const provider = gtk_css_provider_new();
-    gtk_css_provider_load_from_data(provider, "#mine {padding: 0} ", -1, NULL);
+    gtk_css_provider_load_from_data(
+            provider,
+            "#hud{background-color:#4a742c;} #board{background-color:#313131;padding:0;margin:0;} #mine{padding:0;}"
+            "#label{color:white;font-size:12pt;font-weight:bold;}",
+            -1,
+            NULL
+    );
     gtk_style_context_add_provider_for_screen(screen, GTK_STYLE_PROVIDER(provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
     g_object_unref(provider);
 

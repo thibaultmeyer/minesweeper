@@ -16,6 +16,11 @@ void minesweeper_toggle_flag(s_minesweeper_game *const game, int pos_width, int 
         }
     }
 
+    // Impossible to set more flags than mines
+    if (game->flag_count >= game->mine_count) {
+        return;
+    }
+
     // Retrieves cell
     s_minesweeper_cell *const cell = minesweeper_get_cell(game, pos_width, pos_height);
 

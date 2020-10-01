@@ -1,4 +1,5 @@
 #include "gui.h"
+#include "image/gui_image_tile_close.h"
 #include "image/gui_image_tile_flag.h"
 #include "image/gui_image_tile_mine.h"
 #include "image/gui_image_tile_open.h"
@@ -29,12 +30,13 @@ const s_cell_tile_image_info gl_cell_tile_image_info[] = {
 void gui_game_callback_cell_update(s_minesweeper_game *game_instance, s_minesweeper_cell *game_cell, int x, int y) {
     (void) game_instance;  // Unused parameter
 
-    GtkWidget *const gtk_button = gtk_grid_get_child_at(gl_context.gtk_grid, x + 1, y + 1);
+    // Update board grid
+    GtkWidget *const gtk_button = gtk_grid_get_child_at(gl_context.gtk_grid_game, x + 1, y + 1);
 
     if (gtk_button != NULL) {
         GList      *childrens = gtk_container_get_children(GTK_CONTAINER(gtk_button));
         for (GList *iterator  = childrens; iterator != NULL; iterator = iterator->next) {
-            gtk_container_remove(GTK_CONTAINER(gl_context.gtk_grid), GTK_WIDGET(iterator->data));
+            gtk_container_remove(GTK_CONTAINER(gl_context.gtk_grid_game), GTK_WIDGET(iterator->data));
             gtk_widget_destroy(GTK_WIDGET(iterator->data));
         }
         g_list_free(childrens);
@@ -60,11 +62,28 @@ void gui_game_callback_cell_update(s_minesweeper_game *game_instance, s_mineswee
                     gl_cell_tile_image_info[game_cell->proximity_mine_count].payload,
                     *gl_cell_tile_image_info[game_cell->proximity_mine_count].payload_size,
                     gl_context.cell_size,
-                    gl_context.cell_size);
+                    gl_context.cell_size
+            );
+            GtkWidget *const image             = gtk_image_new_from_pixbuf(pixbuf_tile_close);
+            gtk_container_add(GTK_CONTAINER(gtk_button), image);
+            g_object_unref(pixbuf_tile_close);
+        } else {
+            GdkPixbuf *const pixbuf_tile_close = gui_image_load_from_memory_scale(gui_image_tile_close_bytes,
+                                                                                  gui_image_tile_close_length,
+                                                                                  gl_context.cell_size,
+                                                                                  gl_context.cell_size);
             GtkWidget *const image             = gtk_image_new_from_pixbuf(pixbuf_tile_close);
             gtk_container_add(GTK_CONTAINER(gtk_button), image);
             g_object_unref(pixbuf_tile_close);
         }
-        gtk_widget_show_all(GTK_WIDGET(gl_context.gtk_window));
     }
+
+    // Update HUD
+    gchar *const g_str_flag_left = g_strdup_printf("%03i", gl_context.minesweeper_game->mine_count -
+                                                           gl_context.minesweeper_game->flag_count);
+    gtk_label_set_text(gl_context.gtk_label_flag_left, g_str_flag_left);
+    g_free(g_str_flag_left);
+
+    // Show
+    gtk_widget_show_all(GTK_WIDGET(gl_context.gtk_window));
 }

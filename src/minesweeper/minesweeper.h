@@ -23,12 +23,21 @@ typedef struct s_minesweeper_game {
     int                     flag_count;
     int                     open_cell_count;
     s_minesweeper_cell      **cells;
+    int                     timer;
     e_minesweeper_gamestate state;
 
     void (*function_update_gamestate_callback)(struct s_minesweeper_game *);
 
     void (*function_update_cell_callback)(struct s_minesweeper_game *, struct s_minesweeper_cell *, int, int);
 } s_minesweeper_game;
+
+/**
+ * Change the game state.
+ *
+ * @param game The game instance
+ * @param game_state The game state to set
+ */
+void minesweeper_change_game_state(s_minesweeper_game *game, e_minesweeper_gamestate game_state);
 
 /**
  * Creates a new game instance. This function will return
@@ -58,6 +67,24 @@ s_minesweeper_game *minesweeper_create(int width,
 void minesweeper_destroy(s_minesweeper_game *game);
 
 /**
+ * Dump the current game to the console.
+ *
+ * @param game The game instance
+ */
+void minesweeper_dump(s_minesweeper_game *game);
+
+/**
+ * Retrieves all adjacent cells. The returned array ending with NULL value.
+ * Only the first dimension must be free !
+ *
+ * @param game The game instance
+ * @param pos_width X (width) position
+ * @param pos_height Y (height) position
+ * @return an array containing adjacent cells (pointer)
+ */
+s_minesweeper_cell **minesweeper_get_adjacent_cells(s_minesweeper_game *game, int pos_width, int pos_height);
+
+/**
  * Retrieves the cell located at the given position.
  *
  * @param game The game instance
@@ -80,31 +107,13 @@ int minesweeper_is_all_cells_open(s_minesweeper_game *game);
  *
  * @param game The game instance
  */
-void minesweeper_toggle_flag(s_minesweeper_game *game, int pos_width, int pos_height);
+void minesweeper_open_cell(s_minesweeper_game *game, int pos_width, int pos_height);
 
 /**
  * Adds or removes flag on the cell identified by given coordinates.
  *
  * @param game The game instance
  */
-void minesweeper_open_cell(s_minesweeper_game *game, int pos_width, int pos_height);
-
-/**
- * Retrieves all adjacent cells. The returned array ending with NULL value.
- * Only the first dimension must be free !
- *
- * @param game The game instance
- * @param pos_width X (width) position
- * @param pos_height Y (height) position
- * @return an array containing adjacent cells (pointer)
- */
-s_minesweeper_cell **minesweeper_get_adjacent_cells(s_minesweeper_game *game, int pos_width, int pos_height);
-
-/**
- * Dump the current game to the console.
- *
- * @param game The game instance
- */
-void minesweeper_dump(s_minesweeper_game *game);
+void minesweeper_toggle_flag(s_minesweeper_game *game, int pos_width, int pos_height);
 
 #endif //MINESWEEPER_GAMELOGIC_H

@@ -23,8 +23,10 @@ typedef struct s_game_info_difficulty {
 
 typedef struct s_context {
     GtkWindow          *gtk_window;
-    GtkGrid            *gtk_grid;
-    guint              gtk_timer_cpu;
+    GtkGrid            *gtk_grid_game;
+    GtkLabel           *gtk_label_timer;
+    GtkLabel           *gtk_label_flag_left;
+    guint              gtk_timer;
     s_minesweeper_game *minesweeper_game;
     int                cell_size;
 } s_context;
@@ -55,6 +57,14 @@ void gui_game_callback_cell_update(s_minesweeper_game *game_instance, s_mineswee
  * @param game_instance  The current game instance
  */
 void gui_game_callback_game_update(s_minesweeper_game *game_instance);
+
+/**
+ * Callback. Update timer.
+ *
+ * @param user_data Data passed to the function
+ * @return TRUE if callback need to be call again
+ */
+gboolean gui_game_callback_timer(gpointer user_data);
 
 /**
  * Load image from memory and scale it.

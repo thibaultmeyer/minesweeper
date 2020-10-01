@@ -62,6 +62,7 @@ ADD_EXECUTABLE(
         src/gui/gui.h
         src/gui/gui_game_callback_cell_update.c
         src/gui/gui_game_callback_game_update.c
+        src/gui/gui_game_callback_timer.c
         src/gui/gui_image_load_from_memory_scale.c
         src/gui/gui_main_callback_app_activate.c
         src/gui/gui_main_callback_click_mine.c
@@ -71,6 +72,7 @@ ADD_EXECUTABLE(
         src/gui/gui_main_initialize_main_window.c
         src/gui/gui_toolbox_is_gtk_dark_theme_enabled.c
         src/minesweeper/minesweeper.h
+        src/minesweeper/minesweeper_change_game_state.c
         src/minesweeper/minesweeper_create.c
         src/minesweeper/minesweeper_destroy.c
         src/minesweeper/minesweeper_dump.c
