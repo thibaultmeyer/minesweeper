@@ -12,7 +12,6 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
     gtk_application_add_window(app, gl_context.gtk_window);
 
     gtk_window_set_title(gl_context.gtk_window, MINESWEEPER_APPNAME);
-    gtk_window_resize(gl_context.gtk_window, 1024, 768);
     g_signal_connect(gl_context.gtk_window, "destroy", G_CALLBACK(gui_main_callback_window_destroy), app);
 
     // Check dark theme
@@ -29,12 +28,12 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
     GtkWidget *button = gtk_menu_button_new();
     GdkPixbuf *pixbuf = is_dark_theme_enabled ? gui_image_load_from_memory_scale(gui_image_newgame_light_bytes,
                                                                                  gui_image_newgame_light_length,
-                                                                                 20,
-                                                                                 20)
+                                                                                 MINESWEEPER_GUI_HEADERBAR_BTN_IMG_WIDTH,
+                                                                                 MINESWEEPER_GUI_HEADERBAR_BTN_IMG_HEIGHT)
                                               : gui_image_load_from_memory_scale(gui_image_newgame_dark_bytes,
                                                                                  gui_image_newgame_dark_length,
-                                                                                 20,
-                                                                                 20);
+                                                                                 MINESWEEPER_GUI_HEADERBAR_BTN_IMG_WIDTH,
+                                                                                 MINESWEEPER_GUI_HEADERBAR_BTN_IMG_HEIGHT);
     GtkWidget *image  = gtk_image_new_from_pixbuf(pixbuf);
     gtk_container_add(GTK_CONTAINER(button), image);
     gtk_widget_set_tooltip_text(button, "New Game");
@@ -79,12 +78,12 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
     button = gtk_button_new();
     pixbuf = is_dark_theme_enabled ? gui_image_load_from_memory_scale(gui_image_about_light_bytes,
                                                                       gui_image_about_light_length,
-                                                                      20,
-                                                                      20)
+                                                                      MINESWEEPER_GUI_HEADERBAR_BTN_IMG_WIDTH,
+                                                                      MINESWEEPER_GUI_HEADERBAR_BTN_IMG_HEIGHT)
                                    : gui_image_load_from_memory_scale(gui_image_about_dark_bytes,
                                                                       gui_image_about_dark_length,
-                                                                      20,
-                                                                      20);
+                                                                      MINESWEEPER_GUI_HEADERBAR_BTN_IMG_WIDTH,
+                                                                      MINESWEEPER_GUI_HEADERBAR_BTN_IMG_HEIGHT);
     image  = gtk_image_new_from_pixbuf(pixbuf);
     gtk_container_add(GTK_CONTAINER(button), image);
     gtk_widget_set_tooltip_text(button, "About");

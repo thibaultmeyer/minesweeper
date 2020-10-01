@@ -4,7 +4,9 @@
 # include <gtk/gtk.h>
 # include "../minesweeper/minesweeper.h"
 
-# define MINESWEEPER_GUI_APPLICATION_ID "com.github.thibaultmeyer.minesweeper"
+# define MINESWEEPER_GUI_APPLICATION_ID             "com.github.thibaultmeyer.minesweeper"
+# define MINESWEEPER_GUI_HEADERBAR_BTN_IMG_HEIGHT   20
+# define MINESWEEPER_GUI_HEADERBAR_BTN_IMG_WIDTH    20
 
 typedef enum e_game_difficulty {
     GAME_DIFFICULTY_EASY   = 0,

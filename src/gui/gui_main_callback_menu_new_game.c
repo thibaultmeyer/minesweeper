@@ -2,9 +2,9 @@
 #include "image/gui_image_tile_close.h"
 
 const s_game_info_difficulty gl_level_difficulty[] = {
-        {.width = 8, .height=8, .mine_count=10, .cell_size=48},
-        {.width =16, .height=16, .mine_count=40, .cell_size=32},
-        {.width =30, .height=16, .mine_count=99, .cell_size=24}
+        {.width = 8, .height = 8, .mine_count = 10, .cell_size = 48},
+        {.width = 16, .height = 16, .mine_count = 40, .cell_size = 32},
+        {.width = 30, .height = 16, .mine_count = 99, .cell_size = 24}
 };
 
 static void free_on_closure_notify(gpointer data, GClosure *closure) {
