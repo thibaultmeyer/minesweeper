@@ -7,6 +7,13 @@
 C / GTK3 Minesweeper clone.
 *****
 
+## Screenshots
+<p align="center">
+  <img width="267" height="301" src="https://user-images.githubusercontent.com/1005086/94842624-e8206f80-041b-11eb-9406-c9121bac42a6.png">
+</p>
+
+
+
 ## Build & install from sources
 To compile and install this project, you must ensure that make, cmake, gcc or clang and GTK development files are being
 correctly installed.
