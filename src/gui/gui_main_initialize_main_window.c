@@ -14,15 +14,15 @@ void gui_main_initialize_main_window(GtkApplication *const app) {
     gtk_window_set_title(gl_context.gtk_window, MINESWEEPER_APPNAME);
     g_signal_connect(gl_context.gtk_window, "destroy", G_CALLBACK(gui_main_callback_window_destroy), app);
 
-    // Check dark theme
-    gboolean is_dark_theme_enabled = gui_toolbox_is_gtk_dark_theme_enabled();
-
     // Create header bar
     GtkHeaderBar *const header_bar = GTK_HEADER_BAR(gtk_header_bar_new());
     gtk_widget_show(GTK_WIDGET(header_bar));
     gtk_header_bar_set_title(header_bar, MINESWEEPER_APPNAME);
     gtk_header_bar_set_show_close_button(header_bar, TRUE);
     gtk_window_set_titlebar(gl_context.gtk_window, GTK_WIDGET(header_bar));
+
+    // Check dark theme
+    gboolean is_dark_theme_enabled = gui_toolbox_is_gtk_dark_theme_enabled(GTK_WIDGET(gl_context.gtk_window));
 
     // Button "New Game"
     GtkWidget *button = gtk_menu_button_new();

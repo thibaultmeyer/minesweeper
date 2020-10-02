@@ -128,8 +128,9 @@ void gui_main_initialize_main_window(GtkApplication *app);
 /**
  * Check if a GTK dark theme is currently in use.
  *
+ * @param widget Widget instance used to determine if dark mode is enable
  * @return true if the current GTK theme is dark
  */
-gboolean gui_toolbox_is_gtk_dark_theme_enabled(void);
+gboolean gui_toolbox_is_gtk_dark_theme_enabled(GtkWidget *widget);
 
 #endif //MINESWEEPER_GUI_H
