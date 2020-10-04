@@ -18,7 +18,8 @@ void gui_main_callback_menu_new_game(GtkButton *button, e_game_difficulty game_d
 
     // Clean
     if (gl_context.minesweeper_game != NULL) {
-        minesweeper_change_game_state(gl_context.minesweeper_game, GAME_STATE_GAME_OVER);
+        g_source_remove(gl_context.gtk_timer);
+        gl_context.gtk_timer = 0;
         minesweeper_destroy(gl_context.minesweeper_game);
 
         GList      *childrens = gtk_container_get_children(GTK_CONTAINER(gl_context.gtk_grid_game));

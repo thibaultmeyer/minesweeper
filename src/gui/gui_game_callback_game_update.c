@@ -10,6 +10,14 @@ void gui_game_callback_game_update(struct s_minesweeper_game *game_instance) {
 
         g_source_remove(gl_context.gtk_timer);
         gl_context.gtk_timer = 0;
+
+        GtkWidget *error_msg_dialog = gtk_message_dialog_new(GTK_WINDOW(gl_context.gtk_window),
+                                                  GTK_DIALOG_DESTROY_WITH_PARENT,
+                                                  GTK_MESSAGE_ERROR,
+                                                  GTK_BUTTONS_CLOSE,
+                                                  "Game Over");
+        gtk_dialog_run(GTK_DIALOG(error_msg_dialog));
+        gtk_widget_destroy(error_msg_dialog);
     } else if (game_instance->state != GAME_STATE_PLAYING) {
         g_source_remove(gl_context.gtk_timer);
         gl_context.gtk_timer = 0;
